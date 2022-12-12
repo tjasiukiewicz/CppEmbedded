@@ -1,0 +1,14 @@
+Aplikacja wspiera grę na konsoli 2 graczy (ludzi), którzy
+przestawiają bierki. Aplikacja ma sprawdzać poprawność ruchu
+i wspierać prawidłowe bicie bierek.
+
+1. Chcę zobaczyć szachownice z ustawionymi bierkami.
+
+   a b c d e f g h
+  +-+-+-+-+-+-+-+-+
+8 |r|n|b|q|k|b|n|r| 8
+....
+1 |R|N|B|Q|K|B|N|R| 1
+  +-+-+-+-+-+-+-+-+
+   a b c d e f g h
+
