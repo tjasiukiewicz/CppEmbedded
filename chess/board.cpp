@@ -32,7 +32,7 @@ Board::Board() {
 		}
 	}
 	// Umieszczenie bierek.
-	const static char pieces[Board_Width + 1] = "rnbqkbnr";
+	constexpr static char pieces[Board_Width + 1] = "rnbqkbnr";
 	for (auto col = 0U; col < Board_Width; ++col) {
 		fields[0][col] = toupper(pieces[col]);
 		fields[1][col] = 'P';
