@@ -12,3 +12,9 @@ i wspierać prawidłowe bicie bierek.
   +-+-+-+-+-+-+-+-+
    a b c d e f g h
 
+2. Chcę przestawić pionek. Board zgłasza (bool) czy ruch jest 
+   legalny (jeśli pole źródło jest puste lub pole docelowe 
+   nie jest puste, zwraca false).
+   Uwagi: Zmienić reprezentację pól na std::array, zaimplementować
+   bierki jako oddzielne klasy, rozwiązać problem ze strukturą 
+   ruchu (Move)

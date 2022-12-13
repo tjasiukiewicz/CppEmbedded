@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cctype>
 #include "board.hpp"
 
 namespace {
@@ -14,10 +13,13 @@ inline void show_row_separator() {
 	std::cout << "  +-+-+-+-+-+-+-+-+\n";
 }
 
-inline void show_row(int row_number, const char row[Board::Board_Width]) {
+inline void show_row(int row_number, const Board::row_type& row) {
 	std::cout << row_number + 1 << ' ';
 	for (auto col = 0U; col < Board::Board_Width; ++col) {
-		std::cout << "|" << row[col];
+		std::cout << '|' << (
+				row[col].has_value()
+				? (row[col]).value().get_repr(): ' '
+		);
 	}
 	std::cout << "| " << row_number + 1 << '\n';
 	show_row_separator();
@@ -28,16 +30,16 @@ inline void show_row(int row_number, const char row[Board::Board_Width]) {
 Board::Board() {
 	for (auto row = 0U; row < Board_Height; ++row) {
 		for (auto col = 0U; col < Board_Width; ++col) {
-			fields[row][col] = ' ';
+			fields[row][col] = {};
 		}
 	}
 	// Umieszczenie bierek.
 	constexpr static char pieces[Board_Width + 1] = "rnbqkbnr";
 	for (auto col = 0U; col < Board_Width; ++col) {
-		fields[0][col] = toupper(pieces[col]);
-		fields[1][col] = 'P';
-		fields[Board_Height - 1][col] = pieces[col];
-		fields[Board_Height - 2][col] = 'p';
+		fields[0][col] = {Color::White, pieces[col]};
+		fields[1][col] = {Color::White, 'p'};
+		fields[Board_Height - 1][col] = {Color::Black, pieces[col]};
+		fields[Board_Height - 2][col] = {Color::Black, 'p'};
 	}
 }
 
@@ -49,4 +51,8 @@ void Board::show() const {
 		show_row(row, fields[row]);
 	}
 	show_col_names();
+}
+
+bool Board::move_piece(const Move& move) {
+	return true;
 }
