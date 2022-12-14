@@ -1,15 +1,12 @@
 #ifndef PIECE_HPP_
 #define PIECE_HPP_
 
-enum class Color {
-	White,
-	Black
-};
+#include "color.hpp"
 
 class Piece {
-public:
+protected:
 	Piece(Color color, char repr);
-
+public:
 	// noncopyable
 	Piece(const Piece&) = delete;
 	Piece& operator=(const Piece&) = delete;

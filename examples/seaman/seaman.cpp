@@ -9,7 +9,7 @@ public:
 	constexpr static unsigned Road_Width = 11;
 	constexpr static unsigned Show_Road_Delay = 100;
 	constexpr static unsigned Change_Position_Delay = 500;
-	constexpr static unsigned Tendency = -50;
+	constexpr static unsigned Tendency = +50;
 
 	Seaman()
 		: position{Road_Width / 2}, stop{false} {

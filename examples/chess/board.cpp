@@ -1,16 +1,29 @@
 #include <iostream>
+#include <iostream>
+#include "pawn.hpp"
+#include "rook.hpp"
+#include "bishop.hpp"
+#include "knight.hpp"
+#include "queen.hpp"
+#include "king.hpp"
 #include "board.hpp"
 
 namespace {
 
 inline void show_col_names() {
-	// TODO: Uzależnić ilość nazw od Board::Board_Width
-	std::cout << "   a b c d e f g h\n";
+	std::cout << "   ";
+	for (auto i = 0U; i < Board::Board_Width; ++i) {
+		std::cout << static_cast<char>('a' + i) << ' ';
+	}
+	std::cout << '\n';
 }
 
 inline void show_row_separator() {
-	// TODO: Uzależnić ilość +- od Board::Board_Width
-	std::cout << "  +-+-+-+-+-+-+-+-+\n";
+	std::cout << "  ";
+	for (auto i = 0U; i < Board::Board_Width; ++i) {
+		std::cout << "+-";
+	}
+	std::cout << "+\n";
 }
 
 inline void show_row(int row_number, const Board::row_type& row) {
@@ -25,22 +38,32 @@ inline void show_row(int row_number, const Board::row_type& row) {
 	show_row_separator();
 }
 
+inline void fill_pawn_line(Board::row_type& row, const Color color) {
+	for (auto col = 0U; col < Board::Board_Width; ++col) {
+		row[col] = Pawn(color);
+	}
+}
+
+inline void fill_figure_line(Board::row_type& row, const Color color) {
+	row[0] = Rook(color);
+	row[1] = Knight(color);
+	row[2] = Bishop(color);
+	row[3] = Queen(color);
+	row[4] = King(color);
+	row[5] = Bishop(color);
+	row[6] = Knight(color);
+	row[7] = Rook(color);
+}
+
 } // Anonymous namespace
 
-Board::Board() {
-	for (auto row = 0U; row < Board_Height; ++row) {
-		for (auto col = 0U; col < Board_Width; ++col) {
-			fields[row][col] = {};
-		}
-	}
-	// Umieszczenie bierek.
-	constexpr static char pieces[Board_Width + 1] = "rnbqkbnr";
-	for (auto col = 0U; col < Board_Width; ++col) {
-		fields[0][col] = {Color::White, pieces[col]};
-		fields[1][col] = {Color::White, 'p'};
-		fields[Board_Height - 1][col] = {Color::Black, pieces[col]};
-		fields[Board_Height - 2][col] = {Color::Black, 'p'};
-	}
+Board::Board()
+	: fields{} {
+	// Placement pieces
+	fill_pawn_line(fields[1], Color::White);
+	fill_pawn_line(fields[Board_Height - 2], Color::Black);
+	fill_figure_line(fields[0], Color::White);
+	fill_figure_line(fields[Board_Height - 1], Color::Black);
 }
 
 void Board::show() const {
@@ -54,5 +77,18 @@ void Board::show() const {
 }
 
 bool Board::move_piece(const Move& move) {
-	return true;
+	auto from = move.get_from();
+	auto to = move.get_to();
+
+	auto & from_field = fields[from.get_row()][from.get_col()];
+	auto & to_field = fields[to.get_row()][to.get_col()];
+
+	bool result = false;
+
+	if (from_field.has_value() && (!(to_field.has_value()))) {
+		// Move piece
+		from_field.swap(to_field);
+		result = true;
+	}
+	return result;
 }

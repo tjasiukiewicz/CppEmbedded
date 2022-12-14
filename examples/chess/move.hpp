@@ -1,15 +1,7 @@
 #ifndef MOVE_HPP_
 #define MOVE_HPP_
 
-class Position {
-public:
-	Position(char col, unsigned row);
-	unsigned get_row() const;
-	unsigned get_col() const;
-private:
-	unsigned col;
-	unsigned row;
-};
+#include "position.hpp"
 
 class Move {
 public:
