@@ -1,11 +1,11 @@
 #include <cassert>
-#include "board.hpp"
+#include "config.hpp"
 #include "position.hpp"
 
 Position::Position(char col_, unsigned row_)
 	: col{0}, row{0} {
-	assert((col_ >= 'a') && (col_ <= ('a' + Board::Board_Width)));
-	assert((row_ >= 1) && (row_ < Board::Board_Width));
+	assert((col_ >= 'a') && (col_ <= ('a' + Board_Width)));
+	assert((row_ >= 1) && (row_ < Board_Width));
 	col = col_ - 'a';
 	row = row_ - 1;
 }

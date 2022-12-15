@@ -1,5 +1,3 @@
-#include <iostream>
-#include <iostream>
 #include "pawn.hpp"
 #include "rook.hpp"
 #include "bishop.hpp"
@@ -10,36 +8,8 @@
 
 namespace {
 
-inline void show_col_names() {
-	std::cout << "   ";
-	for (auto i = 0U; i < Board::Board_Width; ++i) {
-		std::cout << static_cast<char>('a' + i) << ' ';
-	}
-	std::cout << '\n';
-}
-
-inline void show_row_separator() {
-	std::cout << "  ";
-	for (auto i = 0U; i < Board::Board_Width; ++i) {
-		std::cout << "+-";
-	}
-	std::cout << "+\n";
-}
-
-inline void show_row(int row_number, const Board::row_type& row) {
-	std::cout << row_number + 1 << ' ';
-	for (auto col = 0U; col < Board::Board_Width; ++col) {
-		std::cout << '|' << (
-				row[col].has_value()
-				? (row[col]).value().get_repr(): ' '
-		);
-	}
-	std::cout << "| " << row_number + 1 << '\n';
-	show_row_separator();
-}
-
 inline void fill_pawn_line(Board::row_type& row, const Color color) {
-	for (auto col = 0U; col < Board::Board_Width; ++col) {
+	for (auto col = 0U; col < Board_Width; ++col) {
 		row[col] = Pawn(color);
 	}
 }
@@ -66,16 +36,6 @@ Board::Board()
 	fill_figure_line(fields[Board_Height - 1], Color::Black);
 }
 
-void Board::show() const {
-	show_col_names();
-	show_row_separator();
-	auto row = Board_Height;
-	while (row--) {
-		show_row(row, fields[row]);
-	}
-	show_col_names();
-}
-
 bool Board::move_piece(const Move& move) {
 	auto from = move.get_from();
 	auto to = move.get_to();
@@ -91,4 +51,19 @@ bool Board::move_piece(const Move& move) {
 		result = true;
 	}
 	return result;
+}
+
+void Board::visit(Display& display) {
+	char tab[Board_Height * Board_Width * sizeof(char)];
+	for (auto row = 0U; row < Board_Height; ++row) {
+		for (auto col = 0U; col < Board_Width; ++col) {
+			auto & o_piece = fields[row][col];
+			if (o_piece.has_value()) {
+				tab[row * Board_Width + col] = o_piece.value().get_repr();
+			} else {
+				tab[row * Board_Width + col] = ' ';
+			}
+		}
+	}
+	Display::fill_fields(tab);
 }

@@ -1,5 +1,4 @@
 #include <cassert>
-#include "board.hpp"
 #include "move.hpp"
 
 Move::Move(const Position& from_, const Position& to_)

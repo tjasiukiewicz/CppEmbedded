@@ -1,6 +1,6 @@
 .PHONY := clean
 
-OBJ := main.o board.o piece.o position.o move.o pawn.o rook.o bishop.o knight.o queen.o king.o
+OBJ := main.o board.o piece.o position.o move.o pawn.o rook.o bishop.o knight.o queen.o king.o display.o
 CXXFLAGS := -Wall -Wextra -pedantic -g
 CXX := g++
 LD_FLAGS :=
